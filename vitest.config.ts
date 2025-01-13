@@ -7,6 +7,7 @@ export default defineConfig({
     name: 'react',
     browser: {
       enabled: true,
+      headless: true,
       name: 'chromium',
       provider: 'playwright',
     },

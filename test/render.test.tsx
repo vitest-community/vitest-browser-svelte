@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import { page } from '@vitest/browser/context'
-import { render } from '../src/index.js'
+import { render } from 'vitest-browser-svelte'
 import HelloWorld from './fixtures/HelloWorld.svelte'
 import Counter from './fixtures/Counter.svelte'
 
@@ -12,9 +12,7 @@ test('renders simple component', async () => {
 
 test('renders counter', async () => {
   const screen = render(Counter, {
-    props: {
-      initialCount: 1,
-    },
+    initialCount: 1,
   })
 
   await expect.element(screen.getByText('Count is 1')).toBeVisible()
