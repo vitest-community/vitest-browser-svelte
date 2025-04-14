@@ -56,7 +56,7 @@ test('counter button increments the count', async () => {
 })
 ```
 
-Unlike `@testing-library/svelte`, `vitest-browser-svelte` cleans up the component before the test starts instead of after, so you can see the rendered result in your UI. To avoid auto-cleanup, import the `render` function from `vitest-browser-vue/pure`.
+Unlike `@testing-library/svelte`, `vitest-browser-svelte` cleans up the component before the test starts instead of after, so you can see the rendered result in your UI. To avoid auto-cleanup, import the `render` function from `vitest-browser-svelte/pure`.
 
 ## Special thanks
 
