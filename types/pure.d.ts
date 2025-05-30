@@ -57,9 +57,12 @@ export type Exports<C> = C extends LegacyComponent
  *
  * In Svelte 4, these are the options passed to the component constructor.
  */
-export type MountOptions<C extends Component> = C extends LegacyComponent
-  ? LegacyConstructorOptions<Props<C>>
-  : Parameters<typeof mount<Props<C>, Exports<C>>>[1];
+export type MountOptions<C extends Component> = Omit<
+    C extends LegacyComponent
+        ? LegacyConstructorOptions<Props<C>>
+        : Parameters<typeof mount<Props<C>, Exports<C>>>[1],
+    'target'
+> & { target?: Element | Document | ShadowRoot };
 
 /**
  * Customize how Svelte renders the component.
