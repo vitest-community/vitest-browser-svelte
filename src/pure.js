@@ -1,6 +1,6 @@
 // @ts-check
 
-import { tick } from 'svelte'
+import * as Svelte from 'svelte'
 import { debug, getElementLocatorSelectors } from '@vitest/browser/utils'
 
 import { mount, unmount, updateProps, validateOptions } from './core/index.js'
@@ -91,7 +91,7 @@ function render(Component, options = {}, renderOptions = {}) {
       }
 
       updateProps(component, props)
-      await tick()
+      await Svelte.tick()
     },
     unmount: () => {
       cleanupComponent(component)
@@ -119,7 +119,7 @@ function cleanupComponent(component) {
 function cleanupTarget(target) {
   const inCache = targetCache.delete(target)
 
-  if (inCache && target.parentNode === document.body) {
+  if (inCache) {
     document.body.removeChild(target)
   }
 }
