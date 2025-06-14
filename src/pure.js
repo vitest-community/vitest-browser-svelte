@@ -38,7 +38,7 @@ const componentCache = new Set()
  *   container: HTMLElement
  *   baseElement: HTMLElement
  *   component: C
- *   debug: (el?: HTMLElement | DocumentFragment) => void
+ *   debug: (el?: HTMLElement) => void
  *   rerender: (props: Partial<import('svelte').ComponentProps<C>>) => Promise<void>
  *   unmount: () => void
  * } & import('@vitest/browser/context').LocatorSelectors} RenderResult
