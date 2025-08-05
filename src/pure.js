@@ -51,7 +51,7 @@ const componentCache = new Set()
  *
  * @template {import('svelte').SvelteComponent} C
  *
- * @param {import('svelte').ComponentType<C>} Component - The component to render.
+ * @param {import('../types/pure.js').ComponentType<C>} Component - The component to render.
  * @param {SvelteComponentOptions<C>} options - Customize how Svelte renders the component.
  * @param {RenderOptions} renderOptions - Customize how Testing Library sets up the document and binds queries.
  * @returns {RenderResult<C>} The rendered component and bound testing functions.
