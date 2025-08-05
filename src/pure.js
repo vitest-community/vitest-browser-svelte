@@ -3,6 +3,7 @@
 import * as Svelte from 'svelte'
 import { debug, getElementLocatorSelectors } from '@vitest/browser/utils'
 
+import { page } from '@vitest/browser/context'
 import { mount, unmount, updateProps, validateOptions } from './core/index.js'
 
 /**
@@ -41,6 +42,7 @@ const componentCache = new Set()
  *   debug: (el?: HTMLElement) => void
  *   rerender: (props: Partial<import('svelte').ComponentProps<C>>) => Promise<void>
  *   unmount: () => void
+ *   locator: import('@vitest/browser/context').Locator
  * } & import('@vitest/browser/context').LocatorSelectors} RenderResult
  */
 
@@ -79,6 +81,7 @@ function render(Component, options = {}, renderOptions = {}) {
     baseElement,
     component,
     container: target,
+    locator: page.elementLocator(target),
     debug: (el = baseElement) => {
       debug(el)
     },

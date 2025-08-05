@@ -1,4 +1,4 @@
-import { LocatorSelectors } from '@vitest/browser/context'
+import { LocatorSelectors, Locator } from '@vitest/browser/context'
 
 import type {
   Component as ModernComponent,
@@ -81,6 +81,7 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
     debug: (el?: HTMLElement) => void;
     rerender: (props: Partial<Props<C>>) => Promise<void>;
     unmount: () => void;
+    locator: Locator;
 }
 /** Unmount all components and remove elements added to `<body>`. */
 export function cleanup(): void;
