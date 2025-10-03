@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { page } from '@vitest/browser/context'
+import { page } from 'vitest/browser'
 import { render } from 'vitest-browser-svelte'
 import HelloWorld from './fixtures/HelloWorld.svelte'
 import Counter from './fixtures/Counter.svelte'

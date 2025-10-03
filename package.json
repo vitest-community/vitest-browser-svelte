@@ -39,9 +39,6 @@
     "src",
     "types"
   ],
-  "engines": {
-    "node": "^18.0.0 || >=20.0.0"
-  },
   "scripts": {
     "test": "vitest",
     "publish-ci": "tsx scripts/publish-ci.ts",
@@ -50,14 +47,13 @@
     "lint:fix": "pnpm lint --fix"
   },
   "peerDependencies": {
-    "@vitest/browser": "^2.1.0 || ^3.0.0 || ^4.0.0-0",
     "svelte": "^3 || ^4 || ^5 || ^5.0.0-next.0",
-    "vitest": "^2.1.0 || ^3.0.0 || ^4.0.0-0"
+    "vitest": "^4.0.0-0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.24.1",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "@vitest/browser": "^3.2.3",
+    "@vitest/browser-playwright": "^4.0.0-beta.15",
     "bumpp": "^9.4.2",
     "changelogithub": "^0.13.9",
     "eslint": "^9.8.0",
@@ -66,8 +62,8 @@
     "tsup": "^8.2.4",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
-    "vite": "^6.3.5",
-    "vitest": "^3.2.3",
+    "vite": "^7.1.9",
+    "vitest": "^4.0.0-beta.15",
     "zx": "^8.1.4"
   }
 }
