@@ -1,10 +1,11 @@
 // @ts-check
 
 import * as Svelte from 'svelte'
-import { debug, getElementLocatorSelectors } from '@vitest/browser/utils'
 
-import { page } from '@vitest/browser/context'
+import { page, utils } from 'vitest/browser'
 import { mount, unmount, updateProps, validateOptions } from './core/index.js'
+
+const { debug, getElementLocatorSelectors } = utils
 
 /**
  * @type {Set<Element>}
@@ -42,8 +43,8 @@ const componentCache = new Set()
  *   debug: (el?: HTMLElement) => void
  *   rerender: (props: Partial<import('svelte').ComponentProps<C>>) => Promise<void>
  *   unmount: () => void
- *   locator: import('@vitest/browser/context').Locator
- * } & import('@vitest/browser/context').LocatorSelectors} RenderResult
+ *   locator: import('vitest/browser').Locator
+ * } & import('vitest/browser').LocatorSelectors} RenderResult
  */
 
 /**

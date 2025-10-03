@@ -1,4 +1,4 @@
-import { LocatorSelectors, Locator } from '@vitest/browser/context'
+import { LocatorSelectors, Locator } from 'vitest/browser'
 
 import type {
   Component as ModernComponent,
@@ -90,7 +90,7 @@ export function cleanup(): void;
  */
 export function render<C extends Component>(Component: ComponentType<C>, options?: SvelteComponentOptions<C>, renderOptions?: RenderOptions): RenderResult<C>;
 
-declare module '@vitest/browser/context' {
+declare module 'vitest/browser' {
   interface BrowserPage {
     render: typeof render
   }

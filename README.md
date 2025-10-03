@@ -2,7 +2,7 @@
 
 Render Svelte components in Vitest Browser Mode. This library follows `testing-library` principles and exposes only [locators](https://vitest.dev/guide/browser/locators) and utilities that encourage you to write tests that closely resemble how your Svelte components are used.
 
-Requires `vitest` and `@vitest/browser` 2.1.0 or higher.
+Requires `vitest` 4.0.0 or higher.
 
 ```tsx
 import { render } from 'vitest-browser-svelte'
@@ -36,15 +36,14 @@ export default defineConfig({
     // import `vitest-browser-svelte` manually so TypeScript can pick it up
     setupFiles: ['vitest-browser-svelte'],
     browser: {
-      name: 'chromium',
-      enabled: true,
+      // ... your browser config
     },
   },
 })
 ```
 
 ```tsx
-import { page } from '@vitest/browser/context'
+import { page } from 'vitest/browser'
 import Component from './Component.svelte'
 
 test('counter button increments the count', async () => {

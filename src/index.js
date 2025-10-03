@@ -1,8 +1,8 @@
-import { page } from '@vitest/browser/context'
+import { page } from 'vitest/browser'
 import { beforeEach } from 'vitest'
-import { cleanup, render } from './pure'
+import { cleanup, render } from './pure.js'
 
-export { render, cleanup } from './pure'
+export { render, cleanup } from './pure.js'
 
 page.extend({
   render,
