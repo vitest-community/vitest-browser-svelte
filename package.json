@@ -4,16 +4,16 @@
   "version": "2.0.0",
   "packageManager": "pnpm@9.6.0",
   "description": "Render Svelte components in Vitest Browser Mode",
-  "author": "Vitest Team",
+  "author": "Vitest Community",
   "license": "MIT",
   "funding": "https://opencollective.com/vitest",
-  "homepage": "https://github.com/vitest-dev/vitest-browser-svelte#readme",
+  "homepage": "https://github.com/vitest-community/vitest-browser-svelte#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vitest-dev/vitest-browser-svelte.git"
+    "url": "git+https://github.com/vitest-community/vitest-browser-svelte.git"
   },
   "bugs": {
-    "url": "https://github.com/vitest-dev/vitest-browser-svelte/issues"
+    "url": "https://github.com/vitest-community/vitest-browser-svelte/issues"
   },
   "keywords": [
     "svelte",
@@ -48,7 +48,7 @@
   },
   "peerDependencies": {
     "svelte": "^3 || ^4 || ^5 || ^5.0.0-next.0",
-    "vitest": "^4.0.0-0"
+    "vitest": "^4.0.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.24.1",
