@@ -3,7 +3,7 @@
 import * as Svelte from 'svelte'
 
 import { page, utils } from 'vitest/browser'
-import { mount, unmount, updateProps, validateOptions } from './core/index.js'
+import { mount, unmount, validateOptions } from './core/index.js'
 
 const { debug, getElementLocatorSelectors } = utils
 
@@ -41,7 +41,6 @@ const componentCache = new Set()
  *   baseElement: HTMLElement
  *   component: C
  *   debug: (el?: HTMLElement) => void
- *   rerender: (props: Partial<import('svelte').ComponentProps<C>>) => Promise<void>
  *   unmount: () => void
  *   locator: import('vitest/browser').Locator
  * } & import('vitest/browser').LocatorSelectors} RenderResult
@@ -85,17 +84,6 @@ function render(Component, options = {}, renderOptions = {}) {
     locator: page.elementLocator(target),
     debug: (el = baseElement) => {
       debug(el)
-    },
-    rerender: async (props) => {
-      if (props.props) {
-        console.warn(
-          'rerender({ props: {...} }) deprecated, use rerender({...}) instead',
-        )
-        props = props.props
-      }
-
-      updateProps(component, props)
-      await Svelte.tick()
     },
     unmount: () => {
       cleanupComponent(component)

@@ -38,9 +38,4 @@ function unmount(component) {
   component.$destroy()
 }
 
-/** Update the component's props. */
-function updateProps(component, nextProps) {
-  component.$set(nextProps)
-}
-
-export { allowedOptions, mount, unmount, updateProps }
+export { allowedOptions, mount, unmount }

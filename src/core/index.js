@@ -6,14 +6,14 @@
  * if it looks like we're in a Svelte <= 4 environment.
  */
 import * as LegacyCore from './legacy.js'
-import * as ModernCore from './modern.svelte.js'
+import * as ModernCore from './modern.js'
 import { createValidateOptions } from './validate-options.js'
 
-const { mount, unmount, updateProps, allowedOptions }
+const { mount, unmount, allowedOptions }
   = ModernCore.IS_MODERN_SVELTE ? ModernCore : LegacyCore
 
 /** Validate component options. */
 const validateOptions = createValidateOptions(allowedOptions)
 
-export { mount, unmount, updateProps, validateOptions }
+export { mount, unmount, validateOptions }
 export { UnknownSvelteOptionsError } from './validate-options.js'

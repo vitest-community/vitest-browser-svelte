@@ -23,7 +23,7 @@ const allowedOptions = [
 
 /** Mount the component into the DOM. */
 function mount(Component, options) {
-  const props = $state(options.props ?? {})
+  const props = options.props ?? {}
   const component = Svelte.mount(Component, { ...options, props })
 
   Svelte.flushSync()
@@ -38,14 +38,4 @@ function unmount(component) {
   Svelte.flushSync(() => Svelte.unmount(component))
 }
 
-/**
- * Update the component's props.
- *
- * Relies on the `$state` signal added in `mount`.
- */
-function updateProps(component, nextProps) {
-  const prevProps = propsByComponent.get(component)
-  Object.assign(prevProps, nextProps)
-}
-
-export { allowedOptions, IS_MODERN_SVELTE, mount, unmount, updateProps }
+export { allowedOptions, IS_MODERN_SVELTE, mount, unmount }
