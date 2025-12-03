@@ -4,15 +4,16 @@ import { playwright } from '@vitest/browser-playwright'
 
 export default defineConfig({
   plugins: [svelte()],
+  optimizeDeps: {
+    include: ['@testing-library/svelte-core'],
+  },
   test: {
-    name: 'react',
+    name: 'svelte',
     browser: {
       enabled: true,
       headless: true,
       provider: playwright(),
-      instances: [
-        { browser: 'chromium' },
-      ],
+      instances: [{ browser: 'chromium' }],
     },
   },
 })
