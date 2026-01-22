@@ -1,6 +1,6 @@
 // @ts-check
 
-import { page, utils } from 'vitest/browser'
+import { page, server, utils } from 'vitest/browser'
 import { cleanup, render as coreRender } from '@testing-library/svelte-core'
 
 const { debug, getElementLocatorSelectors } = utils
@@ -33,6 +33,9 @@ const { debug, getElementLocatorSelectors } = utils
  */
 function render(Component, options = {}, renderOptions = {}) {
   const { baseElement, container, component, rerender, unmount } = coreRender(Component, options, renderOptions)
+  ensureTestIdAttribute(baseElement)
+  ensureTestIdAttribute(container)
+
   const queries = getElementLocatorSelectors(baseElement)
   const locator = page.elementLocator(container)
 
@@ -51,3 +54,14 @@ function render(Component, options = {}, renderOptions = {}) {
 }
 
 export { cleanup, render }
+
+let idx = 0
+/**
+ * @param {HTMLElement} element
+ */
+function ensureTestIdAttribute(element) {
+  const attributeId = server.config.browser.locators.testIdAttribute
+  if (!element.hasAttribute(attributeId)) {
+    element.setAttribute(attributeId, `__vitest_${idx++}__`)
+  }
+}
