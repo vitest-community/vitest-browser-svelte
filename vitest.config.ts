@@ -13,7 +13,15 @@ export default defineConfig({
       enabled: true,
       headless: true,
       provider: playwright(),
-      instances: [{ browser: 'chromium' }],
+      instances: [
+        { browser: 'chromium' },
+        {
+          browser: 'chromium',
+          name: 'custom-testid',
+          include: ['./test/render-selector.test.ts'],
+          locators: { testIdAttribute: 'data-custom-test-id' },
+        },
+      ],
     },
   },
 })
