@@ -39,21 +39,57 @@ function render(Component, options = {}, renderOptions = {}) {
   const queries = getElementLocatorSelectors(baseElement)
   const locator = page.elementLocator(container)
 
-  return {
+  const result = {
     baseElement,
     component,
     container,
     locator,
-    rerender,
-    unmount,
+    rerender: (/** @type {any} */ props) => {
+      rerender(props)
+      return markThenable(locator, 'svelte.rerender', result.rerender, undefined)
+    },
+    unmount: () => {
+      unmount()
+      return markThenable(locator, 'svelte.unmount', result.unmount, undefined)
+    },
     debug: (el = baseElement) => {
       debug(el)
     },
     ...queries,
   }
+  return { ...result, ...markThenable(locator, 'svelte.render', render, result) }
 }
 
 export { cleanup, render }
+
+/**
+ * @template T
+ * @param {import('vitest/browser').Locator} locator
+ * @param {string} name
+ * @param {Function} fn
+ * @param {T} value
+ * @returns {PromiseLike<T>}
+ */
+function markThenable(locator, name, fn, value) {
+  if (!locator.mark) {
+    return { then: (/** @type {any} */ f) => f?.(value) }
+  }
+  const error = new Error(name)
+  if ('captureStackTrace' in Error) {
+    Error.captureStackTrace(error, fn)
+  }
+  return {
+    async then(onfulfilled, onrejected) {
+      try {
+        await locator.mark(name, error)
+        return Promise.resolve(value).then(onfulfilled, onrejected)
+      }
+      catch (e) {
+        return Promise.reject(e).then(onfulfilled, onrejected)
+      }
+    },
+  }
+}
 
 let idx = 0
 /**

@@ -11,8 +11,8 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
     baseElement: HTMLElement;
     component: Exports<C>;
     debug: (el?: HTMLElement) => void;
-    rerender: Rerender<C>;
-    unmount: () => void;
+    rerender: (props: Parameters<Rerender<C>>[0]) => void & PromiseLike<void>;
+    unmount: () => void & PromiseLike<void>;
     locator: Locator;
 }
 
@@ -22,7 +22,7 @@ export function cleanup(): void;
 /**
  * Render a component into the document.
  */
-export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): RenderResult<C>;
+export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): RenderResult<C> & PromiseLike<RenderResult<C>>;
 
 declare module 'vitest/browser' {
   interface BrowserPage {
