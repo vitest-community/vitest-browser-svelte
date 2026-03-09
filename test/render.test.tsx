@@ -22,7 +22,7 @@ test('renders counter', async () => {
 
 // test trace output by:
 // pnpm test render.test.ts --browser=chromium -t trace --browser.trace=on --run
-// pnpm playwright show-trace test/__traces__/render.test.ts/vue--chromium--trace-mark-with-await-0-0.trace.zip
+// pnpm playwright show-trace test/__traces__/render.test.tsx/svelte--chromium--trace-mark-with-await-0-0.trace.zip
 test('trace mark with await', async () => {
   const screen = await render(Counter, {
     initialCount: 1,
