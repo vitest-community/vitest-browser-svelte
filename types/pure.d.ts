@@ -11,7 +11,9 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
     baseElement: HTMLElement;
     component: Exports<C>;
     debug: (el?: HTMLElement) => void;
+    /** Update the component props. Also records a `svelte.rerender` trace mark. */
     rerender: Rerender<C>;
+    /** Unmount the component. Can be awaited to record a `svelte.unmount` trace mark. */
     unmount: () => void & PromiseLike<void>;
     locator: Locator;
 }
@@ -20,7 +22,8 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
 export function cleanup(): void;
 
 /**
- * Render a component into the document.
+ * Render a Svelte component into the document.
+ * Can be awaited to record a `svelte.render` trace mark.
  */
 export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): RenderResult<C> & PromiseLike<RenderResult<C>>;
 
