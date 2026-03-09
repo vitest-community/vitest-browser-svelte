@@ -11,7 +11,7 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
     baseElement: HTMLElement;
     component: Exports<C>;
     debug: (el?: HTMLElement) => void;
-    rerender: (props: Parameters<Rerender<C>>[0]) => void & PromiseLike<void>;
+    rerender: Rerender<C>;
     unmount: () => void & PromiseLike<void>;
     locator: Locator;
 }

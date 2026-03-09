@@ -44,9 +44,9 @@ function render(Component, options = {}, renderOptions = {}) {
     component,
     container,
     locator,
-    rerender: (/** @type {any} */ props) => {
-      rerender(props)
-      return markThenable(locator, 'svelte.rerender', result.rerender, undefined)
+    rerender: async (/** @type {any} */ props) => {
+      await rerender(props)
+      await markThenable(locator, 'svelte.rerender', result.rerender, undefined)
     },
     unmount: () => {
       unmount()
