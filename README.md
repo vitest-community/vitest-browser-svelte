@@ -10,7 +10,7 @@ import { expect, test } from 'vitest'
 import Component from './Component.svelte'
 
 test('counter button increments the count', async () => {
-  const screen = render(Component, {
+  const screen = await render(Component, {
     initialCount: 1,
   })
 
@@ -47,7 +47,7 @@ import { page } from 'vitest/browser'
 import Component from './Component.svelte'
 
 test('counter button increments the count', async () => {
-  const screen = page.render(Component, {
+  const screen = await page.render(Component, {
     initialCount: 1,
   })
 

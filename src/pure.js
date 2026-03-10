@@ -23,6 +23,10 @@ const { debug, getElementLocatorSelectors } = utils
 
 /**
  * Render a component into the document.
+ * Also records a `svelte.render` trace mark.
+ *
+ * Synchronous usage is deprecated and will be removed in the next major version.
+ * Please use `await render(Component)` instead of `render(Component)`.
  *
  * @template {import('@testing-library/svelte-core/types').Component} C
  *
@@ -75,7 +79,7 @@ function markThenable(locator, name, fn, value) {
     return { then: (/** @type {any} */ f) => f?.(value) }
   }
   const error = new Error(name)
-  if ('captureStackTrace' in Error) {
+  if ('captureStackTrace' in Error && typeof Error.captureStackTrace === 'function') {
     Error.captureStackTrace(error, fn)
   }
   return {

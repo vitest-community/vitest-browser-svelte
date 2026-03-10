@@ -11,10 +11,20 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
     baseElement: HTMLElement;
     component: Exports<C>;
     debug: (el?: HTMLElement) => void;
-    /** Update the component props. Also records a `svelte.rerender` trace mark. */
+    /**
+     * Update the component props. Also records a `svelte.rerender` trace mark.
+     *
+     * Synchronous usage is deprecated and will be removed in the next major version.
+     * Please use `await rerender(props)` instead of `rerender(props)`.
+     */
     rerender: Rerender<C>;
-    /** Unmount the component. Can be awaited to record a `svelte.unmount` trace mark. */
-    unmount: () => void & PromiseLike<void>;
+    /**
+     * Unmount the component. Also records a `svelte.unmount` trace mark.
+     *
+     * Synchronous usage is deprecated and will be removed in the next major version.
+     * Please use `await unmount()` instead of `unmount()`.
+     */
+    unmount: () => Promise<void>;
     locator: Locator;
 }
 
@@ -23,7 +33,10 @@ export function cleanup(): void;
 
 /**
  * Render a Svelte component into the document.
- * Can be awaited to record a `svelte.render` trace mark.
+ * Also records a `svelte.render` trace mark.
+ *
+ * Synchronous usage is deprecated and will be removed in the next major version.
+ * Please use `await render(Component)` instead of `render(Component)`.
  */
 export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): RenderResult<C> & PromiseLike<RenderResult<C>>;
 
