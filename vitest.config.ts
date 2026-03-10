@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [svelte()],
   optimizeDeps: {
     include: ['@testing-library/svelte-core'],
+    force: true,
   },
   test: {
     name: 'svelte',
