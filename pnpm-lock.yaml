@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@playwright/test':
-        specifier: ^1.58.2
-        version: 1.58.2
       '@testing-library/svelte-core':
         specifier: ^1.0.0
         version: 1.0.0(svelte@5.34.2)
@@ -18,6 +15,9 @@ importers:
       '@antfu/eslint-config':
         specifier: ^2.24.1
         version: 2.24.1(@vue/compiler-sfc@3.4.35)(eslint@9.8.0)(svelte@5.34.2)(typescript@5.5.4)(vitest@4.1.0-beta.6)
+      '@playwright/test':
+        specifier: ^1.58.2
+        version: 1.58.2
       '@sveltejs/vite-plugin-svelte':
         specifier: ^6.2.1
         version: 6.2.1(svelte@5.34.2)(vite@7.1.9(@types/node@24.10.1)(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))
