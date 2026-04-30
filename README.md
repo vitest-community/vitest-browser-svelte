@@ -1,5 +1,7 @@
 # vitest-browser-svelte
 
+[Docs](https://vitest.dev/api/browser/svelte.html) | [Package](https://npmx.dev/package/vitest-browser-svelte)
+
 Render Svelte components in Vitest Browser Mode. This library follows `testing-library` principles and exposes only [locators](https://vitest.dev/guide/browser/locators) and utilities that encourage you to write tests that closely resemble how your Svelte components are used.
 
 Requires `vitest` 4.0.0 or higher.
