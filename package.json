@@ -59,6 +59,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@types/node": "^24.10.1",
     "@vitest/browser-playwright": "5.0.0-beta.3",
+    "@vitest/ui": "5.0.0-beta.3",
     "bumpp": "^9.4.2",
     "changelogithub": "^0.13.9",
     "esbuild": "^0.27.3",
