@@ -25,17 +25,14 @@ const { debug, getElementLocatorSelectors } = utils
  * Render a component into the document.
  * Also records a `svelte.render` trace mark.
  *
- * Synchronous usage is deprecated and will be removed in the next major version.
- * Please use `await render(Component)` instead of `render(Component)`.
- *
  * @template {import('@testing-library/svelte-core/types').Component} C
  *
  * @param {import('@testing-library/svelte-core/types').ComponentImport<C>} Component - The component to render.
  * @param {import('@testing-library/svelte-core/types').ComponentOptions<C>} options - Customize how Svelte renders the component.
  * @param {import('@testing-library/svelte-core/types').SetupOptions} renderOptions - Customize how the document and queries are set up.
- * @returns {RenderResult<C>} The rendered component and bound testing functions.
+ * @returns {Promise<RenderResult<C>>} The rendered component and bound testing functions.
  */
-function render(Component, options = {}, renderOptions = {}) {
+async function render(Component, options = {}, renderOptions = {}) {
   const { baseElement, container, component, rerender, unmount } = coreRender(Component, options, renderOptions)
   ensureTestIdAttribute(baseElement)
   ensureTestIdAttribute(container)
@@ -50,49 +47,38 @@ function render(Component, options = {}, renderOptions = {}) {
     locator,
     rerender: async (/** @type {any} */ props) => {
       await rerender(props)
-      await markThenable(locator, 'svelte.rerender', result.rerender, undefined)
+      await mark(locator, 'svelte.rerender', result.rerender)
     },
-    unmount: () => {
+    unmount: async () => {
       unmount()
-      return markThenable(locator, 'svelte.unmount', result.unmount, undefined)
+      await mark(locator, 'svelte.unmount', result.unmount)
     },
     debug: (el = baseElement) => {
       debug(el)
     },
     ...queries,
   }
-  return { ...result, ...markThenable(locator, 'svelte.render', render, result) }
+  await mark(locator, 'svelte.render', render)
+  return result
 }
 
 export { cleanup, render }
 
 /**
- * @template T
  * @param {import('vitest/browser').Locator} locator
  * @param {string} name
  * @param {Function} fn
- * @param {T} value
- * @returns {PromiseLike<T>}
+ * @returns {Promise<void>}
  */
-function markThenable(locator, name, fn, value) {
+async function mark(locator, name, fn) {
   if (!locator.mark) {
-    return { then: (/** @type {any} */ f) => f?.(value) }
+    return
   }
   const error = new Error(name)
   if ('captureStackTrace' in Error && typeof Error.captureStackTrace === 'function') {
     Error.captureStackTrace(error, fn)
   }
-  return {
-    async then(onfulfilled, onrejected) {
-      try {
-        await locator.mark(name, error)
-        return Promise.resolve(value).then(onfulfilled, onrejected)
-      }
-      catch (e) {
-        return Promise.reject(e).then(onfulfilled, onrejected)
-      }
-    },
-  }
+  await locator.mark(name, error)
 }
 
 let idx = 0

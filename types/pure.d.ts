@@ -13,16 +13,10 @@ export interface RenderResult<C extends Component> extends LocatorSelectors {
     debug: (el?: HTMLElement) => void;
     /**
      * Update the component props. Also records a `svelte.rerender` trace mark.
-     *
-     * Synchronous usage is deprecated and will be removed in the next major version.
-     * Please use `await rerender(props)` instead of `rerender(props)`.
      */
     rerender: Rerender<C>;
     /**
      * Unmount the component. Also records a `svelte.unmount` trace mark.
-     *
-     * Synchronous usage is deprecated and will be removed in the next major version.
-     * Please use `await unmount()` instead of `unmount()`.
      */
     unmount: () => Promise<void>;
     locator: Locator;
@@ -34,11 +28,8 @@ export function cleanup(): void;
 /**
  * Render a Svelte component into the document.
  * Also records a `svelte.render` trace mark.
- *
- * Synchronous usage is deprecated and will be removed in the next major version.
- * Please use `await render(Component)` instead of `render(Component)`.
  */
-export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): RenderResult<C> & PromiseLike<RenderResult<C>>;
+export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): Promise<RenderResult<C>>;
 
 declare module 'vitest/browser' {
   interface BrowserPage {
