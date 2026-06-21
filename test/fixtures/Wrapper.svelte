@@ -1,6 +1,6 @@
 <script lang="ts">
     import type {Snippet} from 'svelte'
-    let {heading, children} = $props<{heading: string, children?: Snippet}>()
+    let {heading, children} = $props<{heading: string, children: Snippet}>()
 </script>
 
 <div>
