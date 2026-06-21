@@ -6,10 +6,11 @@ export type { Component, ComponentImport, ComponentOptions, Exports, Rerender, S
 /**
  * The rendered component and bound testing functions.
  */
-export interface RenderResult<C extends Component> extends LocatorSelectors {
+export interface RenderResult<C extends Component, W extends Component = never> extends LocatorSelectors {
     container: HTMLElement;
     baseElement: HTMLElement;
     component: Exports<C>;
+    wrapper: Exports<W>;
     debug: (el?: HTMLElement) => void;
     /**
      * Update the component props. Also records a `svelte.rerender` trace mark.
@@ -38,7 +39,7 @@ export function cleanup(): void;
  * Synchronous usage is deprecated and will be removed in the next major version.
  * Please use `await render(Component)` instead of `render(Component)`.
  */
-export function render<C extends Component>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions): RenderResult<C> & PromiseLike<RenderResult<C>>;
+export function render<C extends Component, W extends Component = never>(Component: ComponentImport<C>, options?: ComponentOptions<C>, renderOptions?: SetupOptions<W>): RenderResult<C, W> & PromiseLike<RenderResult<C, W>>;
 
 declare module 'vitest/browser' {
   interface BrowserPage {
