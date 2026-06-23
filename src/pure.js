@@ -1,7 +1,7 @@
 // @ts-check
 
 import { page, server, utils } from 'vitest/browser'
-import { cleanup, render as coreRender } from '@testing-library/svelte-core'
+import { cleanup, render as coreRender, wrapperSetup as setup } from '@testing-library/svelte-core'
 
 const { debug, getElementLocatorSelectors } = utils
 
@@ -69,7 +69,7 @@ function render(Component, options = {}, renderOptions = {}) {
   return { ...result, ...markThenable(locator, 'svelte.render', render, result) }
 }
 
-export { cleanup, render }
+export { cleanup, render, setup }
 
 /**
  * @template T
