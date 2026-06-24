@@ -1,7 +1,7 @@
 // @ts-check
 
 import { page, server, utils } from 'vitest/browser'
-import { cleanup, render as coreRender } from '@testing-library/svelte-core'
+import { cleanup, render as coreRender, wrapperSetup as setup } from '@testing-library/svelte-core'
 
 const { debug, getElementLocatorSelectors } = utils
 
@@ -9,11 +9,13 @@ const { debug, getElementLocatorSelectors } = utils
  * The rendered component and bound testing functions.
  *
  * @template {import('@testing-library/svelte-core/types').Component} C
+ * @template {import('@testing-library/svelte-core/types').Component} [W=never]
  *
  * @typedef {{
  *   container: HTMLElement
  *   baseElement: HTMLElement
  *   component: import('@testing-library/svelte-core/types').Exports<C>
+ *   wrapper: import('@testing-library/svelte-core/types').Exports<W>
  *   debug: (el?: HTMLElement) => void
  *   rerender: import('@testing-library/svelte-core/types').Rerender<C>
  *   unmount: () => void
@@ -29,26 +31,29 @@ const { debug, getElementLocatorSelectors } = utils
  * Please use `await render(Component)` instead of `render(Component)`.
  *
  * @template {import('@testing-library/svelte-core/types').Component} C
+ * @template {import('@testing-library/svelte-core/types').Component} [W=never]
  *
  * @param {import('@testing-library/svelte-core/types').ComponentImport<C>} Component - The component to render.
  * @param {import('@testing-library/svelte-core/types').ComponentOptions<C>} options - Customize how Svelte renders the component.
- * @param {import('@testing-library/svelte-core/types').SetupOptions} renderOptions - Customize how the document and queries are set up.
- * @returns {RenderResult<C>} The rendered component and bound testing functions.
+ * @param {import('@testing-library/svelte-core/types').SetupOptions<W>} renderOptions - Customize how the document and queries are set up.
+ * @returns {RenderResult<C, W>} The rendered component and bound testing functions.
  */
 function render(Component, options = {}, renderOptions = {}) {
-  const { baseElement, container, component, rerender, unmount } = coreRender(Component, options, renderOptions)
+  const { baseElement, container, component, wrapper, rerender, unmount } = coreRender(Component, options, renderOptions)
   ensureTestIdAttribute(baseElement)
   ensureTestIdAttribute(container)
 
   const queries = getElementLocatorSelectors(baseElement)
   const locator = page.elementLocator(container)
 
+  /** @type {RenderResult<C, W>} */
   const result = {
     baseElement,
     component,
+    wrapper,
     container,
     locator,
-    rerender: async (/** @type {any} */ props) => {
+    rerender: async (props) => {
       await rerender(props)
       await markThenable(locator, 'svelte.rerender', result.rerender, undefined)
     },
@@ -64,7 +69,7 @@ function render(Component, options = {}, renderOptions = {}) {
   return { ...result, ...markThenable(locator, 'svelte.render', render, result) }
 }
 
-export { cleanup, render }
+export { cleanup, render, setup }
 
 /**
  * @template T
