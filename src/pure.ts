@@ -1,31 +1,32 @@
 // @ts-check
 
-import { page, server, utils } from 'vitest/browser'
+import { type Locator, type LocatorSelectors, page, server, utils } from 'vitest/browser'
 import { cleanup, render as coreRender, wrapperSetup as setup } from '@testing-library/svelte-core'
+import type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
 
 const { debug, getElementLocatorSelectors } = utils
 
-/**
- * The rendered component and bound testing functions.
- *
- * @template {import('@testing-library/svelte-core/types').Component} C
- * @template {import('@testing-library/svelte-core/types').Component} [W=never]
- *
- * @typedef {{
- *   container: HTMLElement
- *   baseElement: HTMLElement
- *   component: import('@testing-library/svelte-core/types').Exports<C>
- *   wrapper: import('@testing-library/svelte-core/types').Exports<W>
- *   debug: (el?: HTMLElement) => void
- *   rerender: import('@testing-library/svelte-core/types').Rerender<C>
- *   unmount: () => void
- *   locator: import('vitest/browser').Locator
- * } & import('vitest/browser').LocatorSelectors} RenderResult
- */
+/** The rendered component and bound testing functions. */
+interface RenderResult<C extends Component, W extends Component = never> extends LocatorSelectors {
+  container: HTMLElement
+  baseElement: HTMLElement
+  component: Exports<C>
+  wrapper: Exports<W>
+  debug: (el?: HTMLElement) => void
+  /** Update the component props and record a `svelte.rerender` trace mark. */
+  rerender: Rerender<C>
+  /**
+   * Unmount the component and record a `svelte.unmount` trace mark.
+   *
+   * Synchronous usage is deprecated and will be removed in the next major version.
+   * Please use `await unmount()` instead of `unmount()`.
+   */
+  unmount: () => PromiseLike<void>
+  locator: Locator
+}
 
 /**
- * Render a component into the document.
- * Also records a `svelte.render` trace mark.
+ * Render a component into the document and record a `svelte.render` trace mark.
  *
  * Synchronous usage is deprecated and will be removed in the next major version.
  * Please use `await render(Component)` instead of `render(Component)`.
@@ -38,7 +39,7 @@ const { debug, getElementLocatorSelectors } = utils
  * @param {import('@testing-library/svelte-core/types').SetupOptions<W>} renderOptions - Customize how the document and queries are set up.
  * @returns {RenderResult<C, W>} The rendered component and bound testing functions.
  */
-function render(Component, options = {}, renderOptions = {}) {
+function render<C extends Component, W extends Component = never>(Component: ComponentImport<C>, options: ComponentOptions<C> = {}, renderOptions: SetupOptions<W> = {}): RenderResult<C, W> & PromiseLike<RenderResult<C, W>> {
   const { baseElement, container, component, wrapper, rerender, unmount } = coreRender(Component, options, renderOptions)
   ensureTestIdAttribute(baseElement)
   ensureTestIdAttribute(container)
@@ -46,8 +47,7 @@ function render(Component, options = {}, renderOptions = {}) {
   const queries = getElementLocatorSelectors(baseElement)
   const locator = page.elementLocator(container)
 
-  /** @type {RenderResult<C, W>} */
-  const result = {
+  const result: RenderResult<C, W> = {
     baseElement,
     component,
     wrapper,
@@ -70,6 +70,7 @@ function render(Component, options = {}, renderOptions = {}) {
 }
 
 export { cleanup, render, setup }
+export type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
 
 /**
  * @template T
@@ -79,9 +80,9 @@ export { cleanup, render, setup }
  * @param {T} value
  * @returns {PromiseLike<T>}
  */
-function markThenable(locator, name, fn, value) {
+function markThenable<T>(locator: Locator, name: string, fn: Function, value: T): PromiseLike<T> {
   if (!locator.mark) {
-    return { then: (/** @type {any} */ f) => f?.(value) }
+    return { then: (f: any) => f?.(value) }
   }
   const error = new Error(name)
   if ('captureStackTrace' in Error && typeof Error.captureStackTrace === 'function') {
@@ -104,7 +105,7 @@ let idx = 0
 /**
  * @param {HTMLElement} element
  */
-function ensureTestIdAttribute(element) {
+function ensureTestIdAttribute(element: HTMLElement) {
   const attributeId = server.config.browser.locators.testIdAttribute
   if (!element.hasAttribute(attributeId)) {
     element.setAttribute(attributeId, `__vitest_${idx++}__`)

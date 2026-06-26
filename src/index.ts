@@ -13,3 +13,9 @@ beforeEach(async () => {
   cleanup()
   return setup()
 })
+
+declare module 'vitest/browser' {
+  interface BrowserPage {
+    render: typeof render
+  }
+}
