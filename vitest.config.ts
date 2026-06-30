@@ -1,16 +1,12 @@
 import { defineConfig } from 'vitest/config'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { playwright } from '@vitest/browser-playwright'
-import { defaultClientConditions } from 'vite'
 
 export default defineConfig({
   plugins: [svelte()],
   optimizeDeps: {
     include: ['@testing-library/svelte-core'],
     force: true,
-  },
-  resolve: {
-    conditions: process.env.CI ? [...defaultClientConditions] : ['vitest-browser-svelte:source', ...defaultClientConditions],
   },
   test: {
     name: 'svelte',

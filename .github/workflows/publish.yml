@@ -40,36 +40,9 @@ jobs:
             echo "No release commit found at HEAD"
           fi
 
-  build:
-    if: needs.detect.outputs.release == 'true'
-    needs: detect
-    name: Build Package
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
-
-      - name: Set node version to 24
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: 24
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Upload dist
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: dist
-          path: dist
-
   publish:
     if: needs.detect.outputs.release == 'true'
-    needs: [detect, build]
+    needs: detect
     name: Publish vitest-browser-svelte
     runs-on: ubuntu-latest
     permissions:
@@ -109,11 +82,8 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
-      - name: Download dist
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        with:
-          name: dist
-          path: dist
+      - name: Build
+        run: pnpm run build
 
       - name: Stage publish to npm (dry run)
         env:
