@@ -23,28 +23,31 @@
   ],
   "exports": {
     ".": {
-      "types": "./types/index.d.ts",
-      "default": "./src/index.js"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     },
     "./pure": {
-      "types": "./types/pure.d.ts",
-      "default": "./src/pure.js"
+      "types": "./dist/pure.d.mts",
+      "default": "./dist/pure.mjs"
     },
     "./package.json": "./package.json"
   },
-  "main": "./src/index.js",
-  "module": "./src/index.js",
-  "types": "./types/index.d.ts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "files": [
-    "src",
-    "types"
+    "dist",
+    "src"
   ],
   "scripts": {
+    "dev": "tsdown --watch --no-clean",
+    "build": "tsdown",
     "test": "vitest",
     "publish-ci": "tsx scripts/publish-ci.ts",
     "release": "tsx scripts/release.ts",
     "lint": "eslint --cache .",
-    "lint:fix": "pnpm lint --fix"
+    "lint:fix": "pnpm lint --fix",
+    "typecheck": "tsc"
   },
   "peerDependencies": {
     "svelte": "^3 || ^4 || ^5 || ^5.0.0-next.0",
@@ -68,7 +71,7 @@
     "playwright": "^1.60.0",
     "semver": "^7.8.3",
     "svelte": "^5.55.9",
-    "tsup": "^8.2.4",
+    "tsdown": "^0.22.3",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
     "vite": "^8.0.14",
