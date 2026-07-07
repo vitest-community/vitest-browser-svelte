@@ -1,5 +1,21 @@
 # Contributing
 
+## Development
+
+This project uses [pnpm](https://pnpm.io). Install dependencies with `pnpm install`.
+
+The test suite and type check both import `vitest-browser-svelte` through its package exports, which resolve to the built output in `dist/`. **Run `pnpm build` before `pnpm test` or `pnpm typecheck`**, or they'll fail to resolve the package. While iterating, keep `pnpm dev` running to rebuild `dist/` on every change.
+
+| Script           | What it does                                                                                 |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| `pnpm dev`       | Rebuild `dist/` on change (`tsdown --watch`). Run this in the background while developing.   |
+| `pnpm build`     | Build `dist/` once (`tsdown`). Required before `test` and `typecheck`.                       |
+| `pnpm test`      | Run the test suite in Vitest browser mode. Requires a prior `build`.                         |
+| `pnpm typecheck` | Type-check the project with `tsc`. Requires a prior `build`.                                 |
+| `pnpm lint`      | Lint with ESLint (cached).                                                                   |
+| `pnpm lint:fix`  | Lint and auto-fix.                                                                           |
+| `pnpm release`   | Browse release types and versions interactively (used to preview a version bump; see below). |
+
 ## Release process
 
 > This section is for maintainers with commit access.
