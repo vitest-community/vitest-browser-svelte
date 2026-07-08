@@ -1,5 +1,3 @@
-// @ts-check
-
 import { type Locator, type LocatorSelectors, page, server, utils } from 'vitest/browser'
 import { cleanup, render as coreRender, wrapperSetup as setup } from '@testing-library/svelte-core'
 import type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
@@ -31,13 +29,10 @@ interface RenderResult<C extends Component, W extends Component = never> extends
  * Synchronous usage is deprecated and will be removed in the next major version.
  * Please use `await render(Component)` instead of `render(Component)`.
  *
- * @template {import('@testing-library/svelte-core/types').Component} C
- * @template {import('@testing-library/svelte-core/types').Component} [W=never]
- *
- * @param {import('@testing-library/svelte-core/types').ComponentImport<C>} Component - The component to render.
- * @param {import('@testing-library/svelte-core/types').ComponentOptions<C>} options - Customize how Svelte renders the component.
- * @param {import('@testing-library/svelte-core/types').SetupOptions<W>} renderOptions - Customize how the document and queries are set up.
- * @returns {RenderResult<C, W>} The rendered component and bound testing functions.
+ * @param Component - The component to render.
+ * @param options - Customize how Svelte renders the component.
+ * @param renderOptions - Customize how the document and queries are set up.
+ * @returns The rendered component and bound testing functions.
  */
 function render<C extends Component, W extends Component = never>(Component: ComponentImport<C>, options: ComponentOptions<C> = {}, renderOptions: SetupOptions<W> = {}): RenderResult<C, W> & PromiseLike<RenderResult<C, W>> {
   const { baseElement, container, component, wrapper, rerender, unmount } = coreRender(Component, options, renderOptions)
@@ -69,17 +64,6 @@ function render<C extends Component, W extends Component = never>(Component: Com
   return { ...result, ...markThenable(locator, 'svelte.render', render, result) }
 }
 
-export { cleanup, render, setup, type RenderResult }
-export type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
-
-/**
- * @template T
- * @param {import('vitest/browser').Locator} locator
- * @param {string} name
- * @param {Function} fn
- * @param {T} value
- * @returns {PromiseLike<T>}
- */
 function markThenable<T>(locator: Locator, name: string, fn: Function, value: T): PromiseLike<T> {
   if (!locator.mark) {
     return { then: (f: any) => f?.(value) }
@@ -102,12 +86,13 @@ function markThenable<T>(locator: Locator, name: string, fn: Function, value: T)
 }
 
 let idx = 0
-/**
- * @param {HTMLElement} element
- */
+
 function ensureTestIdAttribute(element: HTMLElement) {
   const attributeId = server.config.browser.locators.testIdAttribute
   if (!element.hasAttribute(attributeId)) {
     element.setAttribute(attributeId, `__vitest_${idx++}__`)
   }
 }
+
+export { cleanup, render, setup, type RenderResult }
+export type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
