@@ -1,6 +1,6 @@
 import { page } from 'vitest/browser'
 import { beforeEach } from 'vitest'
-import { cleanup, render, setup } from './pure.js'
+import { cleanup, render } from './pure.js'
 
 export * from './pure.js'
 
@@ -9,9 +9,8 @@ page.extend({
   [Symbol.for('vitest:component-cleanup')]: cleanup,
 })
 
-beforeEach(async () => {
+beforeEach(() => {
   cleanup()
-  return setup()
 })
 
 declare module 'vitest/browser' {

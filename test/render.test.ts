@@ -6,13 +6,13 @@ import Counter from './fixtures/Counter.svelte'
 import Wrapper from './fixtures/Wrapper.svelte'
 
 test('renders simple component', async () => {
-  const screen = render(HelloWorld)
+  const screen = await render(HelloWorld)
   await expect.element(page.getByText('Hello World')).toBeVisible()
   expect(screen.container).toMatchSnapshot()
 })
 
 test('renders counter', async () => {
-  const screen = render(Counter, {
+  const screen = await render(Counter, {
     initialCount: 1,
   })
 
@@ -22,7 +22,7 @@ test('renders counter', async () => {
 })
 
 test('renders component in wrapper', async () => {
-  const screen = render(
+  const screen = await render(
     HelloWorld,
     {},
     { wrapper: Wrapper, wrapperProps: { heading: 'wrapper' } },
@@ -33,10 +33,7 @@ test('renders component in wrapper', async () => {
   await expect.element(screen.getByText('Hello World')).toBeVisible()
 })
 
-// test trace output by:
-// pnpm test render.test.ts --browser=chromium -t trace --browser.trace=on --run
-// pnpm playwright show-trace test/__traces__/render.test.tsx/svelte--chromium--trace-mark-with-await-0-0.trace.zip
-test('trace mark with await', async () => {
+test('trace mark', async () => {
   const screen = await render(Counter, {
     initialCount: 1,
   })
