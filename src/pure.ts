@@ -1,5 +1,5 @@
 import { type Locator, type LocatorSelectors, page, server, utils } from 'vitest/browser'
-import { cleanup, render as coreRender, wrapperSetup as setup } from '@testing-library/svelte-core'
+import { cleanup, render as coreRender, wrapperSetup } from '@testing-library/svelte-core'
 import type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
 
 const { debug, getElementLocatorSelectors } = utils
@@ -27,6 +27,10 @@ interface RenderResult<C extends Component, W extends Component = never> extends
  * @returns The rendered component and bound testing functions.
  */
 async function render<C extends Component, W extends Component = never>(Component: ComponentImport<C>, options: ComponentOptions<C> = {}, renderOptions: SetupOptions<W> = {}): Promise<RenderResult<C, W>> {
+  if (renderOptions.wrapper) {
+    await wrapperSetup()
+  }
+
   const { baseElement, container, component, wrapper, rerender, unmount } = coreRender(Component, options, renderOptions)
   ensureTestIdAttribute(baseElement)
   ensureTestIdAttribute(container)
@@ -81,5 +85,5 @@ function ensureTestIdAttribute(element: HTMLElement) {
   }
 }
 
-export { cleanup, render, setup, type RenderResult }
+export { cleanup, render, type RenderResult }
 export type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
