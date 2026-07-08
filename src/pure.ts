@@ -69,7 +69,7 @@ function render<C extends Component, W extends Component = never>(Component: Com
   return { ...result, ...markThenable(locator, 'svelte.render', render, result) }
 }
 
-export { cleanup, render, setup }
+export { cleanup, render, setup, type RenderResult }
 export type { Component, ComponentImport, ComponentOptions, Exports, Rerender, SetupOptions } from '@testing-library/svelte-core/types'
 
 /**
