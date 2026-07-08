@@ -30,7 +30,7 @@ export interface RenderResult<C extends Component, W extends Component = never> 
 }
 
 /** Prepare the testing environment. Called automatically in `beforeEach` when using the default export. */
-export function setup(): void;
+export function setup(): Promise<void>;
 
 /** Unmount all components and remove elements added to `<body>`. */
 export function cleanup(): void;
