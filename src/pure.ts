@@ -7,7 +7,7 @@ import type { Component, ComponentImport, ComponentOptions, Exports, Rerender, S
 const { debug, getElementLocatorSelectors } = utils
 
 /** The rendered component and bound testing functions. */
-interface RenderResult<C extends Component, W extends Component = never> extends LocatorSelectors {
+export interface RenderResult<C extends Component, W extends Component = never> extends LocatorSelectors {
   container: HTMLElement
   baseElement: HTMLElement
   component: Exports<C>
