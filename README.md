@@ -25,7 +25,7 @@ test('counter button increments the count', async () => {
 > [!NOTE]
 > This library doesn't expose or use `act`. Instead, you should use Vitest's locators and `expect.element` API that have [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api) baked in.
 
-`vitest-browser-svelte` also automatically injects `render` and `cleanup` methods on the `page`. Example:
+`vitest-browser-svelte` also automatically injects a `render` method on the `page`. Example:
 
 ```ts
 // vitest.config.ts
@@ -53,7 +53,7 @@ test('counter button increments the count', async () => {
     initialCount: 1,
   })
 
-  screen.cleanup()
+  // ...
 })
 ```
 
